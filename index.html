@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Covid19PolicyHelper</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Covid19PolicyHelper" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="Xinyi-Lai.github.io" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/","name":"Covid19PolicyHelper","headline":"Covid19PolicyHelper","@type":"WebSite","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="/assets/css/style.css?v=54edae654ce837e117cb484dc0b5b53d255c7138">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Covid19PolicyHelper</h1>
+      <h2 class="project-tagline"></h2>
+      
+        <a href="https://github.com/Xinyi-Lai/Covid19PolicyHelper" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h1 id="covid19policyhelper">Covid19PolicyHelper</h1>
+<p><a href="https://devpost.com/submit-to/10147-aws-data-exchange-challenge/start/submissions/172323-covid-19-policy-decision-helper/edit">Link to submission</a></p>
+
+<h2 id="whats-your-project-called">What’s your project called?</h2>
+<p>Covid-19 Policy Decision Helper</p>
+
+<h2 id="heres-the-elevator-pitch">Here’s the elevator pitch</h2>
+<blockquote>
+  <p>What’s your idea? This will be a short tagline for the project</p>
+</blockquote>
+
+<p>Predictive modeling of Covid-19 transmission that helps policy makers make best decisions to controll mortality with the least costs.</p>
+
+<h2 id="its-built-with">It’s built with</h2>
+<blockquote>
+  <p>What languages, APIs, hardware, hosts, libraries, UI Kits or frameworks are you using?</p>
+</blockquote>
+
+<p>……</p>
+
+<h2 id="created-by">Created by</h2>
+<p>Yulin Li, Xinyi Lai</p>
+
+<hr />
+
+<h2 id="heres-the-whole-story">Here’s the whole story</h2>
+<blockquote>
+  <p>Be sure to write what inspired you, what you learned, how you built, and challenges you faced.</p>
+</blockquote>
+
+<h3 id="inspiration">Inspiration</h3>
+
+<p>As the COVID-19 pandemic spreads out all over the world, we see different strategies adopted by different countries and states, and (maybe therefore), we see different characteristics and trends in the transmission of virus in different regions. There are lots of concerns about the future of the pandemic, and there are lots of debates about the policy making in many countries and regions.</p>
+
+<p>We think that it will be interesting to model the dynamics of the viral transmission and to visualize the future trend of COVID-19. Then by setting a tolerate threshold for the future motality rate, we can find the best combination of parameters using optimization methods. Furthermore, we can model the relationship between the transmission parameters and the environmental factors such as the control policy, hospital beds, mobility, population, and so on. Once it is modeled, the effects of them on the transmission process can be explained quantitively, and the optimal set of parameters obtained above will correspond to a set of control policy with the least cost, that is, the most relaxed policy acceptable.</p>
+
+<h3 id="what-it-does">What it does</h3>
+
+<ol>
+  <li><strong>Viral transmission model.</strong>
+ We built a dynamic model for the viral transmission using differential equations. The state-level timeseries data is used in the fitting of the model. After choosing a state of interest and a time period, the transmission parameters will be optimized and outputted, and a predicted curve will show the trend of the pandemic assuming all conditions stay the same in future.</li>
+  <li><strong>Finding the best set of parameters.</strong>
+ With a tolerate threshold of mortality rate / infected rate in a given future period set, our algorithm can find the best set of parameters using the optimization methods. That is, the most relaxed conditions while keeping the mortality rate / infected rate under control for a given time period. In real policy making,  dynamic optimization can be of great help since it can continuously correct the model and give the optimal parameters based on the real-time data.</li>
+  <li><strong>Recommend the best policy decisions.</strong>
+ We modeled the relationship between the transmission parameters and the environmental factors. Given the optimal parameters obtianed above, we can determine the corresponding optimal policy and the value of environmental factors.</li>
+</ol>
+
+<h3 id="how-we-built-it">How we built it</h3>
+
+<h4 id="part-0-data">Part 0: Data</h4>
+
+<p>The dataset we used is the Global Coronavirus (COVID-19) Data (Corona Data Scraper) provided by Enigma.</p>
+
+<p><a href="https://aws.amazon.com/marketplace/pp/prodview-vtnf3vvvheqzw?qid=1597409751562&amp;sr=0-1&amp;ref_=brs_res_product_title#overview">AWS product link</a>
+<a href="https://coronadatascraper.com/#home">Corona Data Scraper page</a></p>
+
+<p>After preprocessing, we fetched the state-level timeseries data of cases, deaths, recovered, hospitalized, data and population.</p>
+
+<h4 id="part-1-seir-infection-model">Part 1: SEIR infection model</h4>
+
+<p>We built a viral transmission model based on the classical SEIR model with some modifications. 
+<img src="https://github.com/Xinyi-Lai/Covid19PolicyHelper/raw/master/model.png" alt="modified SEIR model" /></p>
+
+<p>We Assume…</p>
+
+<ul>
+  <li>Susceptible (S): healthy people, will be infected and turn into E after close contact with E or Q.</li>
+  <li>Exposed (E): infected but have no symptoms yet, infectious with a rate of $\lambda$. E will turn into I after the virus incubation period, which is 14 days on average. So we assume $\sigma = 1/14$, dE/dt (t) = dI/dt (t+14).</li>
+  <li>Infectious (I): infected and have symptoms. We will take the data of test_positive or cases_reported as the data of I. The severe cases will be hospitalized (H), the mild cases will be in self quarantine (Q). I may recover or die after some time.
+    <ul>
+      <li>Self Quarantine (Q): have symptoms, may still have some contact with others, thus infectious with a different rate of $c\lambda$ ($0 \le c \le 1$). We also assume $Q = kI$, where $k = 1 - avg(\frac{\Delta hospitalized}{\Delta test_pos}) $</li>
+      <li>Hospitalized (H): have symptoms, kept in hospitals, assume no contact with S.</li>
+    </ul>
+  </li>
+  <li>Recovered (R): recovered and immune, may turn into S again (immunity lost or virus not cleared)</li>
+  <li>Dead (X): dead unfortunately :(</li>
+</ul>
+
+<p>Therefore, we have a set of differential equations to describe this process:</p>
+
+<p><img src="http://latex.codecogs.com/gif.latex?\\$\begin{aligned}&amp;\frac{dS}{dt}&amp;&amp;=&amp;-\lambda\frac{S}{N}E - c\lambda \frac{S}{N} Q + \alpha R ~~~ &amp;=&amp; - \lambda \frac{S}{N} E - c\lambda \frac{S}{N} kI + \alpha R \\ &amp;\frac{dE}{dt}&amp; &amp;=&amp;   \lambda \frac{S}{N} E + c\lambda \frac{S}{N} Q - \sigma E ~~~ &amp;=&amp;   \lambda \frac{S}{N} E + c\lambda \frac{S}{N} kI - \sigma E \\ &amp;\frac{dI}{dt}&amp; &amp;=&amp; \sigma E - \mu I - \omega I  \\ &amp;\frac{dX}{dt}&amp; &amp;=&amp; \omega I  \\ &amp;\frac{dR}{dt}&amp; &amp;=&amp; \mu I - \alpha R  \end{aligned}$" alt="" /></p>
+
+<p><img src="http://latex.codecogs.com/gif.latex?\\$S+E+I+R+X=N,~I=Q+H$" alt="" /></p>
+
+<p>Apply to our datasets, we have:</p>
+
+<p>$ R = recovered,~ X = deaths,~ I = test_pos - deaths - recovered,<br />
+E(t) = I(t+14) - I(t),~ S = N - E - I - R - X,<br />
+k = 1 - avg(\frac{\Delta hospitalized}{\Delta test_pos})
+$</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>and by controlling the transmission parameters, we can model the future trend of the pandemic under different circumstances. 
+</code></pre></div></div>
+
+<h4 id="part-ii-backward-optimization">Part II: backward optimization</h4>
+
+<h4 id="part-iii-environmental-factors-modeling">Part III: environmental factors modeling</h4>
+
+<h3 id="challenges-we-ran-into">Challenges we ran into</h3>
+
+<h3 id="accomplishments-that-were-proud-of">Accomplishments that we’re proud of</h3>
+
+<h3 id="what-we-learned">What we learned</h3>
+
+<h3 id="whats-next-for-covid-19-policy-decision-helper">What’s next for Covid-19 Policy Decision Helper</h3>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/Xinyi-Lai/Xinyi-Lai.github.io">Xinyi-Lai.github.io</a> is maintained by <a href="https://github.com/Xinyi-Lai">Xinyi-Lai</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>
