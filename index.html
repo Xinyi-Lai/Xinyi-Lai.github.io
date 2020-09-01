@@ -44,7 +44,7 @@ MathJax.Hub.Config({
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">Covid19PolicyHelper</h1>
+      <h1 class="project-name">Covid19 Policy Decision Helper</h1>
       <h2 class="project-tagline"></h2>
       
         <a href="https://github.com/Xinyi-Lai/Covid19PolicyHelper" class="btn">View project on GitHub</a>
@@ -55,7 +55,7 @@ MathJax.Hub.Config({
     </section>
 
     <section class="main-content">
-      <h1 id="covid19policyhelper">Covid19PolicyHelper</h1>
+      <h1 id="covid19policyhelper">Covid19 Policy Decision Helper</h1>
 <p><a href="https://devpost.com/submit-to/10147-aws-data-exchange-challenge/start/submissions/172323-covid-19-policy-decision-helper/edit">Link to submission</a></p>
 
 <h2 id="whats-your-project-called">What’s your project called?</h2>
@@ -118,16 +118,7 @@ MathJax.Hub.Config({
 
 <ul>
   <li><a href="https://aws.amazon.com/marketplace/pp/prodview-vtnf3vvvheqzw?qid=1597409751562&amp;sr=0-1&amp;ref_=brs_res_product_title#overview">Global Coronavirus (COVID-19) Data (Corona Data Scraper)</a> provided by Enigma</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>[COVID-19 Prediction Models Counties &amp; Hospitals</td>
-          <td>Yu Group (UC Berkeley)](https://aws.amazon.com/marketplace/pp/prodview-px2tvvydirx4o?qid=1587582026402&amp;sr=0-1&amp;ref_=srh_res_product_title#overview) provided by Rearc</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+  <li><a href="https://aws.amazon.com/marketplace/pp/prodview-px2tvvydirx4o?qid=1587582026402&amp;sr=0-1&amp;ref_=srh_res_product_title#overview">COVID-19 Prediction Models Counties &amp; Hospitals (Yu Group (UC Berkeley))</a> provided by Rearc</li>
 </ul>
 
 <p>Complementary sources:</p>
@@ -164,10 +155,7 @@ MathJax.Hub.Config({
 
 <p>Apply to our datasets, we have:</p>
 
-<p>$ R = recovered,~ X = deaths,~ I = test_pos - deaths - recovered,<br />
-E(t) = I(t+14) - I(t),~ S = N - E - I - R - X,<br />
-k = 1 - avg(\frac{\Delta hospitalized}{\Delta test_pos})
-$</p>
+<p><img src="equation2.png" alt="equations2" /></p>
 
 <p>Running the model for each state for every 15-day period with appropriate data, we got the best parameters fitting the models for each state and time period.</p>
 
@@ -209,7 +197,7 @@ $</p>
       <li><code class="language-plaintext highlighter-rouge">k</code>: the proportion of positive cases that are not hospitalized</li>
       <li><code class="language-plaintext highlighter-rouge">sigma</code>: we choose <code class="language-plaintext highlighter-rouge">sigma</code> = 1/14 because the incubation period is 14 days on average.</li>
       <li><code class="language-plaintext highlighter-rouge">lamda</code>: infection rate of E (exposed)</li>
-      <li><code class="language-plaintext highlighter-rouge">c</code>: a coefficient measuring the effectiveness of self-quarantine, <code class="language-plaintext highlighter-rouge">c*lamda</code> is the infection rate of Q (self-quarantine),</li>
+      <li><code class="language-plaintext highlighter-rouge">c</code>: a coefficient measuring the effectiveness of self-quarantine, <code class="language-plaintext highlighter-rouge">c*lamda</code> is the infection rate of Q (self-quarantine)</li>
       <li><code class="language-plaintext highlighter-rouge">alpha</code>: immunity lost rate</li>
       <li><code class="language-plaintext highlighter-rouge">omega</code>: death rate</li>
       <li><code class="language-plaintext highlighter-rouge">miu</code>: recover rate</li>
@@ -274,7 +262,7 @@ $</p>
   <li>Test/train splitting</li>
 </ul>
 
-<p>The resulting models are listed in the part-3 html page.</p>
+<p>The resulting models are listed in the “<strong>Result</strong>” section on the part-3 html page.</p>
 
 <h3 id="challenges-we-ran-into">Challenges we ran into</h3>
 
@@ -285,7 +273,7 @@ $</p>
 <h3 id="accomplishments-that-were-proud-of">Accomplishments that we’re proud of</h3>
 
 <ul>
-  <li>We modified the classical SEIR model to fit the COVID-19 pandemic by considering the people in “quarantine” and making use of the hospitalized data. To our suprise, simple as our model seems, it fits the real data pretty well. Also, we found that by controling the transmission parameters, even if with a small change, the outcome may be completely different, which reveals the importance of policymaking.</li>
+  <li>We modified the classical SEIR model to fit the COVID-19 pandemic by considering the people in “quarantine” and making use of the hospitalized data. To our suprise, simple as our model seems, it fits the real data pretty well.</li>
   <li>Some models we obtained in part 3, though simple, are performing quite well regarding the model diagonostics and prediction making metrics, implying that those are models</li>
   <li>We did find out some really interesting relationships between the development of a pandemic and the social/environmental conditions of a state. Simple models tell a big story. The models that engage geographic and demographic predictors as significant factors should raise our awareness of the importance of geographic and demographic factors in decision making.</li>
 </ul>
@@ -293,22 +281,27 @@ $</p>
 <h3 id="what-we-learned">What we learned</h3>
 
 <ol>
-  <li>The crucial role that cloud computing plays in data analysis.</li>
+  <li>
+    <p><strong>The crucial role that cloud computing plays in data analysis.</strong></p>
+
+    <p>Both partners of our team are undergraduates in non-CS majors, and this is our first time touching AWS or any other cloud service system. It did take us a while to figure out where to incorporate our tasks into AWS, but soon we saw the great potentials and capability of AWS.</p>
+  </li>
+  <li>
+    <p><strong>A slight change in early-stage transmission rate could lead to a completely different ending.</strong></p>
+
+    <p>In our simulations controling for the transmission parameters, we found that a tiny change in the the transmission parameters could lead to a radically different track of pandemic development in the end.  This reveals the importance of early-stage policy making to control the transmission rate, even if the change in transmission rate seems negligible.</p>
+  </li>
+  <li>
+    <p><strong>Different models and theories of the relationships are possible.</strong></p>
+
+    <p>As we should know, in multiple-variable modeling, there is not necessarily one, singular correct answer/model, although certainly some methods and models are more useful and would perform better than others depending on the data we choose. The same applies to this project. In part 3, we collected a variety of models corresponding to each SEIR parameter, which performs similarly but are sometimes different in a radical way. For example, we have come across two models that reaches approximately the same error level when predicting a SEIR model parameter, one engages the policy-related variable as significant, while the other engages more demographic factors as significant but excludes any policy-related factors at all. Apparently, the two models tell different stories: the former implies that how early we impose an interving policy does affects the way that the pandemic develops, while the latter says actually more of the factors are predicted by the already-set geographic and demographic variables.</p>
+  </li>
+  <li>
+    <p><strong>Geographic and demographic predictors are more useful and more important than we used to think.</strong></p>
+
+    <p>Surprisingly, variables such as <em>total population</em>–instead of <em>population density</em>–and <em>lattitude/longitude</em> appear statistically significant as predictors in the models predicting <em>transmission rate</em> of the virus, while variables that seems intuitively important, such as <em>population density</em>, <em>medical resource</em> and <em>policy information</em>, did not seem to help as much. At first glance this does not seem to make sense, and we guess that this could mostly be becuase of the poor quality of the data in some columns, especially columns relating to the state policies. However, this still reminds us that some envinronmental data could be unexpectedly important in the development of a pandemic, and policy makers should be aware of that.</p>
+  </li>
 </ol>
-
-<p>Both partners of our team are undergraduates in non-CS majors, and this is our first time touching AWS or any other cloud service system. It did take us a while to figure out where to incorporate all those into AWS, but soon we saw the great potentials and capability of AWS.</p>
-
-<ol>
-  <li>Different models and theories of the relationships are possible.</li>
-</ol>
-
-<p>As we should know, in multiple-variable modeling, there is not necessarily one, singular correct answer/model, although certainly some methods and models are more useful and would perform better than others depending on the data we choose. The same applies to this project. In part 3, we collected a variety of models corresponding to each SEIR parameter, which performs similarly but are sometimes different in a radical way. For example, we have come across two models that reaches approximately the same error level when predicting a SEIR model parameter, one engages the policy-related variable as significant, while the other engages more demographic factors as significant but excludes any policy-related factors at all. Apparently, the two models tell different stories: the former implies that how early we impose an interving policy does affects the way that the pandemic develops, while the latter says actually more of the factors are predicted by the already-set geographic and demographic variables.</p>
-
-<ol>
-  <li>Geographic and demographic predictors are more useful and more important than we used to think.</li>
-</ol>
-
-<p>Surprisingly, variables such as <em>total population</em>–instead of <em>population density</em>–and <em>lattitude/longitude</em> appear statistically significant as predictors in the models predicting <em>transmission rate</em> of the virus, while variables that seems intuitively important, such as <em>population density</em>, <em>medical resource</em> and <em>policy information</em>, did not seem to help as much. At first glance this does not seem to make sense, and we guess that this could mostly be becuase of the poor quality of the data in some columns, especially columns relating to the state policies. However, this still reminds us that some envinronmental data could be unexpectedly important in the development of a pandemic, and policy makers should be aware of that.</p>
 
 <h3 id="whats-next-for-covid-19-policy-decision-helper">What’s next for Covid-19 Policy Decision Helper</h3>
 
@@ -318,9 +311,7 @@ We have modeled the relationship between the transmission parameters and the env
 
 
       <footer class="site-footer">
-        
-          <span class="site-footer-owner"><a href="https://github.com/Xinyi-Lai/Xinyi-Lai.github.io">Xinyi-Lai.github.io</a> is maintained by <a href="https://github.com/Xinyi-Lai">Xinyi-Lai</a>.</span>
-        
+        <span class="site-footer-owner"><a href="https://github.com/Xinyi-Lai/Covid19PolicyHelper">Covid19PolicyHelper</a> is created by <a href="https://github.com/Xinyi-Lai">Xinyi-Lai</a>, <a href="https://github.com/yulinl2">yulinl2</a>, 2020 August. </span>
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
       </footer>
     </section>
