@@ -15,21 +15,28 @@
 {"url":"http://localhost:4000/","name":"Covid19PolicyHelper","headline":"Covid19PolicyHelper","@type":"WebSite","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-<!-- mathjax config similar to math.stackexchange -->
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML"></script>
+<!-- MathJax configuration -->
 <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        jax: ["input/TeX", "output/HTML-CSS"],
-        tex2jax: {
-            inlineMath: [ ['$', '$'] ],
-            displayMath: [ ['$$', '$$']],
-            processEscapes: true,
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        },
-        messageStyle: "none",
-        "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
-    });
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    // Center justify equations in code and markdown cells. Elsewhere
+    // we use CSS to left justify single line equations in code cells.
+    displayAlign: 'center',
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}},
+        linebreaks: { automatic: true }
+    }
+});
 </script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- End of mathjax configuration --></head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
@@ -55,68 +62,93 @@
 <p>Covid-19 Policy Decision Helper</p>
 
 <h2 id="heres-the-elevator-pitch">Here’s the elevator pitch</h2>
-<blockquote>
-  <p>What’s your idea? This will be a short tagline for the project</p>
-</blockquote>
 
-<p>Predictive modeling of Covid-19 transmission that helps policy makers make best decisions to controll mortality with the least costs.</p>
+<p>Predictive modeling of Covid-19 transmission that helps policymakers make the best decisions to control mortality with the least costs.</p>
 
 <h2 id="its-built-with">It’s built with</h2>
-<blockquote>
-  <p>What languages, APIs, hardware, hosts, libraries, UI Kits or frameworks are you using?</p>
-</blockquote>
 
-<p>……</p>
+<p><strong>Languages</strong></p>
+<ul>
+  <li>Python, R, Markdown, HTML</li>
+</ul>
+
+<p><strong>AWS services</strong></p>
+<ul>
+  <li>AWS Data Exchange, EC2, AMI, RDS</li>
+</ul>
+
+<p><strong>Libraries</strong></p>
+<ul>
+  <li>R:  <code class="language-plaintext highlighter-rouge">lmtest</code></li>
+  <li>Python:  <code class="language-plaintext highlighter-rouge">pandas</code>, <code class="language-plaintext highlighter-rouge">numpy</code>, <code class="language-plaintext highlighter-rouge">pylab</code>, <code class="language-plaintext highlighter-rouge">scipy.optimize</code>, <code class="language-plaintext highlighter-rouge">scipy.integrate</code></li>
+</ul>
 
 <h2 id="created-by">Created by</h2>
-<p>Yulin Li, Xinyi Lai</p>
+<ul>
+  <li>Xinyi Lai (xlai7@illinois.edu)</li>
+  <li>Yulin Li (yulinl2@illinois.edu)</li>
+</ul>
 
 <hr />
 
 <h2 id="heres-the-whole-story">Here’s the whole story</h2>
-<blockquote>
-  <p>Be sure to write what inspired you, what you learned, how you built, and challenges you faced.</p>
-</blockquote>
 
 <h3 id="inspiration">Inspiration</h3>
 
-<p>As the COVID-19 pandemic spreads out all over the world, we see different strategies adopted by different countries and states, and (maybe therefore), we see different characteristics and trends in the transmission of virus in different regions. There are lots of concerns about the future of the pandemic, and there are lots of debates about the policy making in many countries and regions.</p>
+<p>As the COVID-19 pandemic spreads out all over the world, we see different strategies adopted by different countries and states, and (maybe therefore), we see different characteristics and trends in the transmission of the virus in different regions. There are lots of concerns about the future of the pandemic, and there are lots of debates about policymaking in many countries and regions.</p>
 
-<p>We think that it will be interesting to model the dynamics of the viral transmission and to visualize the future trend of COVID-19. Then by setting a tolerate threshold for the future motality rate, we can find the best combination of parameters using optimization methods. Furthermore, we can model the relationship between the transmission parameters and the environmental factors such as the control policy, hospital beds, mobility, population, and so on. Once it is modeled, the effects of them on the transmission process can be explained quantitively, and the optimal set of parameters obtained above will correspond to a set of control policy with the least cost, that is, the most relaxed policy acceptable.</p>
+<p>We think that it will be interesting to model the dynamics of viral transmission and to visualize the future trend of COVID-19. Then by setting a tolerant threshold for the future mortality rate, we can find the best combination of parameters using optimization methods. Furthermore, we can model the relationship between the transmission parameters and the environmental factors such as the control policy, hospital beds, mobility, population, and so on. Once it is modeled, the effects of them on the transmission process can be explained quantitively, and the optimal set of parameters obtained above will correspond to a set of control policies with the least cost, that is, the most relaxed policy acceptable.</p>
 
 <h3 id="what-it-does">What it does</h3>
 
 <ol>
   <li><strong>Viral transmission model.</strong>
- We built a dynamic model for the viral transmission using differential equations. The state-level timeseries data is used in the fitting of the model. After choosing a state of interest and a time period, the transmission parameters will be optimized and outputted, and a predicted curve will show the trend of the pandemic assuming all conditions stay the same in future.</li>
+ We built a dynamic model for viral transmission using differential equations. The state-level time-series data is used in the fitting of the model. After choosing a state of interest and a time period, the transmission parameters will be optimized and outputted, and a predicted curve will show the trend of the pandemic assuming all conditions stay the same in the future.</li>
   <li><strong>Finding the best set of parameters.</strong>
- With a tolerate threshold of mortality rate / infected rate in a given future period set, our algorithm can find the best set of parameters using the optimization methods. That is, the most relaxed conditions while keeping the mortality rate / infected rate under control for a given time period. In real policy making,  dynamic optimization can be of great help since it can continuously correct the model and give the optimal parameters based on the real-time data.</li>
-  <li><strong>Recommend the best policy decisions.</strong>
- We modeled the relationship between the transmission parameters and the environmental factors. Given the optimal parameters obtianed above, we can determine the corresponding optimal policy and the value of environmental factors.</li>
+ With a tolerant threshold of mortality rate / infected rate in a given future period set, our algorithm can find the best set of parameters using the optimization methods. That is, the most relaxed conditions while keeping the mortality rate / infected rate under control for a given time period. In real policymaking,  dynamic optimization can be of great help since it can continuously correct the model and give the optimal parameters based on the real-time data.</li>
+  <li><strong>Modeling the relationship between the transmission parameters and environmental factors.</strong> 
+ We aim at obtaining models that are interpretive as well as predictive; in order words, we are hoping to find models that are simple, accessible and easy to be understood, so that people can gain some insights of what is significant to the way a pandemic develops; but at the same time, we are also searching for models among those explainable models that are most helpful for prediction of transmission parameters.</li>
 </ol>
 
 <h3 id="how-we-built-it">How we built it</h3>
 
-<h4 id="part-0-data">Part 0: Data</h4>
+<h4 id="part-o-data">Part O: Data</h4>
 
-<p>The dataset we used is the Global Coronavirus (COVID-19) Data (Corona Data Scraper) provided by Enigma.</p>
+<p>Data source from <strong>AWS Data Exchange</strong>:</p>
 
-<p><a href="https://aws.amazon.com/marketplace/pp/prodview-vtnf3vvvheqzw?qid=1597409751562&amp;sr=0-1&amp;ref_=brs_res_product_title#overview">AWS product link</a>
-<a href="https://coronadatascraper.com/#home">Corona Data Scraper page</a></p>
+<ul>
+  <li><a href="https://aws.amazon.com/marketplace/pp/prodview-vtnf3vvvheqzw?qid=1597409751562&amp;sr=0-1&amp;ref_=brs_res_product_title#overview">Global Coronavirus (COVID-19) Data (Corona Data Scraper)</a> provided by Enigma</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[COVID-19 Prediction Models Counties &amp; Hospitals</td>
+          <td>Yu Group (UC Berkeley)](https://aws.amazon.com/marketplace/pp/prodview-px2tvvydirx4o?qid=1587582026402&amp;sr=0-1&amp;ref_=srh_res_product_title#overview) provided by Rearc</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
 
-<p>After preprocessing, we fetched the state-level timeseries data of cases, deaths, recovered, hospitalized, data and population.</p>
+<p>Complementary sources:</p>
 
-<h4 id="part-1-seir-infection-model">Part 1: SEIR infection model</h4>
+<ul>
+  <li><a href="https://coronadatascraper.com/#home">Corona Data Scraper page</a></li>
+</ul>
+
+<h4 id="part-i-seir-infection-model">Part I: SEIR infection model</h4>
+
+<p>After preprocessing, we fetched the state-level time-series data of cases, deaths, recovered, hospitalized, date, and population.</p>
 
 <p>We built a viral transmission model based on the classical SEIR model with some modifications. 
-<img src="https://github.com/Xinyi-Lai/Covid19PolicyHelper/raw/master/model.png" alt="modified SEIR model" /></p>
+<img src="model.png" alt="modified SEIR model" /></p>
 
 <p>We Assume…</p>
 
 <ul>
   <li>Susceptible (S): healthy people, will be infected and turn into E after close contact with E or Q.</li>
   <li>Exposed (E): infected but have no symptoms yet, infectious with a rate of $\lambda$. E will turn into I after the virus incubation period, which is 14 days on average. So we assume $\sigma = 1/14$, dE/dt (t) = dI/dt (t+14).</li>
-  <li>Infectious (I): infected and have symptoms. We will take the data of test_positive or cases_reported as the data of I. The severe cases will be hospitalized (H), the mild cases will be in self quarantine (Q). I may recover or die after some time.
+  <li>Infectious (I): infected and have symptoms. We will take the data of test_positive or cases_reported as the data of I. The severe cases will be hospitalized (H), the mild cases will be in self-quarantine (Q). I may recover or die after some time.
     <ul>
       <li>Self Quarantine (Q): have symptoms, may still have some contact with others, thus infectious with a different rate of $c\lambda$ ($0 \le c \le 1$). We also assume $Q = kI$, where $k = 1 - avg(\frac{\Delta hospitalized}{\Delta test_pos}) $</li>
       <li>Hospitalized (H): have symptoms, kept in hospitals, assume no contact with S.</li>
@@ -128,9 +160,7 @@
 
 <p>Therefore, we have a set of differential equations to describe this process:</p>
 
-<p><img src="http://latex.codecogs.com/gif.latex?\\$\begin{aligned}&amp;\frac{dS}{dt}&amp;&amp;=&amp;-\lambda\frac{S}{N}E - c\lambda \frac{S}{N} Q + \alpha R ~~~ &amp;=&amp; - \lambda \frac{S}{N} E - c\lambda \frac{S}{N} kI + \alpha R \\ &amp;\frac{dE}{dt}&amp; &amp;=&amp;   \lambda \frac{S}{N} E + c\lambda \frac{S}{N} Q - \sigma E ~~~ &amp;=&amp;   \lambda \frac{S}{N} E + c\lambda \frac{S}{N} kI - \sigma E \\ &amp;\frac{dI}{dt}&amp; &amp;=&amp; \sigma E - \mu I - \omega I  \\ &amp;\frac{dX}{dt}&amp; &amp;=&amp; \omega I  \\ &amp;\frac{dR}{dt}&amp; &amp;=&amp; \mu I - \alpha R  \end{aligned}$" alt="" /></p>
-
-<p><img src="http://latex.codecogs.com/gif.latex?\\$S+E+I+R+X=N,~I=Q+H$" alt="" /></p>
+<p><img src="equation.png" alt="equations" /></p>
 
 <p>Apply to our datasets, we have:</p>
 
@@ -139,20 +169,152 @@ E(t) = I(t+14) - I(t),~ S = N - E - I - R - X,<br />
 k = 1 - avg(\frac{\Delta hospitalized}{\Delta test_pos})
 $</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>and by controlling the transmission parameters, we can model the future trend of the pandemic under different circumstances. 
-</code></pre></div></div>
+<p>Running the model for each state for every 15-day period with appropriate data, we got the best parameters fitting the models for each state and time period.</p>
 
 <h4 id="part-ii-backward-optimization">Part II: backward optimization</h4>
 
+<p>Consider the physical meaning of all the parameters in the above SEIR model:</p>
+<ul>
+  <li>$\lambda$, $c\lambda$: infection rate, which should have a direct relationship with the strength of the control policy (how many days should people in self-quarantine stay at home, how strict should the quarantine be, how should social distancing be enforced, whether or not people are required to wear a mask, etc).</li>
+  <li>$\sigma$: we choose $\sigma = 1/14$ because the incubation period is 14 days on average.</li>
+  <li>$k$: the proportion of positive cases that are not hospitalized, which should have a relationship with the current medical resources such as the number of hospital beds.</li>
+  <li>$\mu, \omega$: recover rate and death rate, which should have a relationship with the current medical resources and the health condition of the population.</li>
+  <li>$\alpha$: immunity lost rate, it depends on the characteristic of the virus and sometimes relates to the testing methods.</li>
+</ul>
+
+<p>Among all above, an important limit to the control of the pandemic is medical resources. In other words, $k, \mu, \omega$ depends on the temporal situations of each states or countries. Another limit is the inherent feature of the COVID-19 virus itself, i.e. $\sigma$ and $\alpha$.</p>
+
+<p>However, the policy maker can decide on the control policy, which directly affects $\lambda$ and $c\lambda$. We know that the control policy is like a double-edged sword: if it is too strict, it would have a bad impact on the economy and people’s social life; but if it is too relaxed, the pandemic will soon lose control, causing even more severe consequences.</p>
+
+<p>Therefore, our solution is trying to find the best set of transmission parameters $\lambda$ and $c$ using optimization methods.</p>
+<ol>
+  <li>Given a state of interest and a start date, the algorithm will fetch for the pandemic  data of that region at that time. It will then take the original parameters as the first guess, and simulate the trend assuming all conditions stay the same in future.</li>
+  <li>With the control term (death / case) and the control factor (proportion of population) specified, the optimization algorithm will run to find the best set of parameters needed to satisfy the requirement. And by controlling the transmission parameters, the trend can also be visualized.</li>
+  <li>Ideally, this algorithm can be run dynamically using the real time data, so that the policy can be adjusted timely and effectively.</li>
+</ol>
+
+<p>By controling the transmission parameters, we can see some completely different curves, which means that making a wise policy decision may significantly affect the future of people.</p>
+
 <h4 id="part-iii-environmental-factors-modeling">Part III: environmental factors modeling</h4>
+
+<p>Finally, we attempted to model the relationships between the SEIR model parameters and a variety of social/environmental factors, including demographic, medical and policy factors. We aim at obtaining models that are interpretive as well as predictive; in order words, we are hoping to find models that are simple, accessible and easy to be understood, so that people can gain some insights of what is significant to the way a pandemic develops, but at the same time, we are also searching for models among those explainable models that are most helpful for prediction making.</p>
+
+<p>With such goals in mind, we engaged a relatively small number of variables in our study–variables that seem most significant to us intuitively, from the most accessible open data source.</p>
+
+<p>The variables engaged in the study are the following:</p>
+
+<ul>
+  <li>SEIR model parameters:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">k</code>: the proportion of positive cases that are not hospitalized</li>
+      <li><code class="language-plaintext highlighter-rouge">sigma</code>: we choose <code class="language-plaintext highlighter-rouge">sigma</code> = 1/14 because the incubation period is 14 days on average.</li>
+      <li><code class="language-plaintext highlighter-rouge">lamda</code>: infection rate of E (exposed)</li>
+      <li><code class="language-plaintext highlighter-rouge">c</code>: a coefficient measuring the effectiveness of self-quarantine, <code class="language-plaintext highlighter-rouge">c*lamda</code> is the infection rate of Q (self-quarantine),</li>
+      <li><code class="language-plaintext highlighter-rouge">alpha</code>: immunity lost rate</li>
+      <li><code class="language-plaintext highlighter-rouge">omega</code>: death rate</li>
+      <li><code class="language-plaintext highlighter-rouge">miu</code>: recover rate</li>
+    </ul>
+  </li>
+  <li>Geographic factors (state-level data, obtained by taking averages of county-level data):
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">POP_LATITUDE</code>: latitute of population center</li>
+      <li><code class="language-plaintext highlighter-rouge">POP_LONGITUDE</code>: latitute of population center</li>
+    </ul>
+  </li>
+  <li>Demographic factors (state-level data, obtained by taking averages of county-level data):
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">PopulationEstimate2018</code>: estimated total population in 2018</li>
+      <li><code class="language-plaintext highlighter-rouge">PopTotalMale2017</code>: total population of male in 2017</li>
+      <li><code class="language-plaintext highlighter-rouge">PopulationEstimate_above65_2017</code>: total population above 65 years of age in 2017</li>
+      <li><code class="language-plaintext highlighter-rouge">PopulationDensityperSqMile2010</code>: population density per square mile in 2010</li>
+      <li><code class="language-plaintext highlighter-rouge">DiabetesPercentage</code>: estimated age-adjusted percentage of diagnosed diabetes in 2016</li>
+      <li><code class="language-plaintext highlighter-rouge">Smokers_Percentage</code>: estimated percentage of adult smokers in 2017</li>
+      <li><code class="language-plaintext highlighter-rouge">HeartDiseaseMortality</code>: estimated mortality rate per 100,000 from all heart diseases</li>
+      <li><code class="language-plaintext highlighter-rouge">StrokeMortality</code>: estimated mortality rate per 100,000 from all strokes</li>
+    </ul>
+  </li>
+  <li>Medical resouce (state-level data, obtained by taking averages of county-level data):
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Hospitals</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ICU_beds</code></li>
+      <li><code class="language-plaintext highlighter-rouge">HospParticipatinginNetwork2017</code>: number of hospitals participating in network in 2017</li>
+    </ul>
+  </li>
+  <li>Current situation:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">cases</code></li>
+      <li><code class="language-plaintext highlighter-rouge">deaths</code></li>
+      <li><code class="language-plaintext highlighter-rouge">recovered</code></li>
+      <li><code class="language-plaintext highlighter-rouge">days</code>: days since the first day of SEIR modeling</li>
+    </ul>
+  </li>
+  <li>State policy (released date)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">stay_at_home</code></li>
+      <li><code class="language-plaintext highlighter-rouge">above_50_gatherings</code></li>
+      <li><code class="language-plaintext highlighter-rouge">above_500_gatherings</code></li>
+      <li><code class="language-plaintext highlighter-rouge">restaurant_dine_in</code></li>
+      <li><code class="language-plaintext highlighter-rouge">entertainment_gym</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>The <strong>modeling methods</strong> we applied include the following:</p>
+
+<ul>
+  <li>Data cleaning as necessary to address observations with missing or extreme values.</li>
+  <li>Multiple linear regression</li>
+  <li>ANOVA</li>
+  <li>Interaction</li>
+  <li>Residual diagnostics</li>
+  <li>Transformations</li>
+  <li>Polynomial regression</li>
+  <li>Stepwise model selection (AIC &amp; BIC)</li>
+  <li>Variable selection</li>
+  <li>Test/train splitting</li>
+</ul>
+
+<p>The resulting models are listed in the part-3 html page.</p>
 
 <h3 id="challenges-we-ran-into">Challenges we ran into</h3>
 
+<p>Searching for meaningful and usable datasets as well as extracting and cleaning information of interests had been a greater pain for us than we had thought.</p>
+
+<p>Also, in part 3, we should have been able to at least get some clue of the significance of the state policies as pandemic predictors. However, due to the paucity of data quality, linear dependence occurs in the data columns involving Covid-19 policies, so that the relationship we questioned remains unable to be calculated for now.</p>
+
 <h3 id="accomplishments-that-were-proud-of">Accomplishments that we’re proud of</h3>
+
+<ul>
+  <li>We modified the classical SEIR model to fit the COVID-19 pandemic by considering the people in “quarantine” and making use of the hospitalized data. To our suprise, simple as our model seems, it fits the real data pretty well. Also, we found that by controling the transmission parameters, even if with a small change, the outcome may be completely different, which reveals the importance of policymaking.</li>
+  <li>Some models we obtained in part 3, though simple, are performing quite well regarding the model diagonostics and prediction making metrics, implying that those are models</li>
+  <li>We did find out some really interesting relationships between the development of a pandemic and the social/environmental conditions of a state. Simple models tell a big story. The models that engage geographic and demographic predictors as significant factors should raise our awareness of the importance of geographic and demographic factors in decision making.</li>
+</ul>
 
 <h3 id="what-we-learned">What we learned</h3>
 
+<ol>
+  <li>The crucial role that cloud computing plays in data analysis.</li>
+</ol>
+
+<p>Both partners of our team are undergraduates in non-CS majors, and this is our first time touching AWS or any other cloud service system. It did take us a while to figure out where to incorporate all those into AWS, but soon we saw the great potentials and capability of AWS.</p>
+
+<ol>
+  <li>Different models and theories of the relationships are possible.</li>
+</ol>
+
+<p>As we should know, in multiple-variable modeling, there is not necessarily one, singular correct answer/model, although certainly some methods and models are more useful and would perform better than others depending on the data we choose. The same applies to this project. In part 3, we collected a variety of models corresponding to each SEIR parameter, which performs similarly but are sometimes different in a radical way. For example, we have come across two models that reaches approximately the same error level when predicting a SEIR model parameter, one engages the policy-related variable as significant, while the other engages more demographic factors as significant but excludes any policy-related factors at all. Apparently, the two models tell different stories: the former implies that how early we impose an interving policy does affects the way that the pandemic develops, while the latter says actually more of the factors are predicted by the already-set geographic and demographic variables.</p>
+
+<ol>
+  <li>Geographic and demographic predictors are more useful and more important than we used to think.</li>
+</ol>
+
+<p>Surprisingly, variables such as <em>total population</em>–instead of <em>population density</em>–and <em>lattitude/longitude</em> appear statistically significant as predictors in the models predicting <em>transmission rate</em> of the virus, while variables that seems intuitively important, such as <em>population density</em>, <em>medical resource</em> and <em>policy information</em>, did not seem to help as much. At first glance this does not seem to make sense, and we guess that this could mostly be becuase of the poor quality of the data in some columns, especially columns relating to the state policies. However, this still reminds us that some envinronmental data could be unexpectedly important in the development of a pandemic, and policy makers should be aware of that.</p>
+
 <h3 id="whats-next-for-covid-19-policy-decision-helper">What’s next for Covid-19 Policy Decision Helper</h3>
+
+<p>As mentioned in the beginning, the ultimate goal of this project is to solve for a set, or a range, of best state-policy-related parameters conditioned by the social/environmental factors of a state. In other words, the mission is to <strong>recommend the best policy decisions</strong>.<br />
+We have modeled the relationship between the transmission parameters and the environmental factors. Given the optimal parameters obtained from part 2, we should at last be able to determine the corresponding optimal policy and the value of environmental factors. It remains for us to expand the dataset, especially to obtain more data describing the state policies, and eventually develop a formal mathemetical model that outputs indicators as decision guidelines.</p>
+
 
 
       <footer class="site-footer">
